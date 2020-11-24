@@ -4,7 +4,7 @@ import { GiftGrid } from './components/GiftGrid';
 
 const GiftExpertApp = () => {
 
-    const [categories, setCategories] = useState(['uno'])
+    const [categories, setCategories] = useState(['one punch'])
 
     return ( 
         <>
@@ -15,7 +15,7 @@ const GiftExpertApp = () => {
             <hr />
             <ul>
                 { 
-                    categories.map( category => <GiftGrid category={category} /> )
+                    categories.map( (category, index) => <GiftGrid key={index} category={category} /> )
                 }
             </ul>
         </>

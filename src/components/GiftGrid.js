@@ -1,45 +1,31 @@
 import React, { useEffect, useState } from 'react'
+import { getGifts } from '../helpers/getGifts'
+import { GiftGridItem } from './GiftGridItem'
 
 export const GiftGrid = ({category}) => {
 
     const [images, setImages] = useState([])
 
     useEffect(() => {
-        getGifts()
-    },[])
-
-    const getGifts = async() => {
-        
-        const url = 'http://api.giphy.com/v1/gifs/search?q=rick&limit=10&api_key=V06oX1avCR8oEbPEIt3mb1IbDMB1sjoh'
-        const resp = await fetch(url)
-        const { data } = await resp.json()
-        
-        const gift = data.map ( img => {
-            return {
-                id: img.id,
-                title: img.title,
-                url: img.images?.downsized_medium.url
-            }
-        })
-
-        setImages(gift)
-        console.log(gift)
-    } 
+        getGifts(category)
+            .then( setImages )
+    },[category])
 
     return (
         <>
             <h3>
                 { category }
-            </h3>  
-            <ul>
+            </h3>
+            <div className="card-grid">  
                 {
-                    images.map( image => (
-                        <li key={ image.id }>
-                            { image.title }
-                        </li>
+                    images.map( img => (
+                        <GiftGridItem 
+                            key={img.id}              
+                            img={img} 
+                        />
                     ))
                 }
-            </ul>
+            </div>
         </>
     )
 }
