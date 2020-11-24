@@ -1,18 +1,31 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getGifts } from '../helpers/getGifts'
+import { GiftGridItem } from './GiftGridItem'
 
 export const GiftGrid = ({category}) => {
 
-    const url = 'http://api.giphy.com/v1/gifs/search?q=rick&limit=10&api_key=V06oX1avCR8oEbPEIt3mb1IbDMB1sjoh'
+    const [images, setImages] = useState([])
 
     useEffect(() => {
-        
-    },[])
+        getGifts(category)
+            .then( setImages )
+    },[category])
 
     return (
         <>
             <h3>
                 { category }
-            </h3>  
+            </h3>
+            <div className="card-grid">  
+                {
+                    images.map( img => (
+                        <GiftGridItem 
+                            key={img.id}              
+                            img={img} 
+                        />
+                    ))
+                }
+            </div>
         </>
     )
 }
